@@ -61,11 +61,11 @@ const Page = () => {
       // Simulate API call delay
       setTimeout(() => {
         if (userRole === "superAdmin") {
-          router.push("/super-admin");
+          router.push("/web/super-admin");
         } else if (userRole === "pastor") {
-          router.push("/pastor");
+          router.push("/web/pastor");
         } else if (userRole === "campAdmin") {
-          router.push("/camp-admin");
+          router.push("/web/camp-admin");
         } else {
           toast.error("Unauthorized phone number", {
             style: { backgroundColor: "#6b0000", color: "white" },
