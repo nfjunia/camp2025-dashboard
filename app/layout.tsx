@@ -1,6 +1,5 @@
-"use client";
 import "./globals.css";
-import { Toaster } from "sonner";
+import ClientToaster from "@/components/ClientToaster";
 
 export default function RootLayout({
   children,
@@ -11,7 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <Toaster />
+        <ClientToaster />
       </body>
     </html>
   );
