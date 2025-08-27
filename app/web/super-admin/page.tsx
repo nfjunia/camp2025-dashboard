@@ -443,7 +443,7 @@ export default function Dashboard() {
                   {" "}
                   +20.1%{" "}
                 </span>
-                from last week
+                from {selectedDay}
               </p>
               <div className="flex items-center mt-1.5 gap-2.5">
                 <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
@@ -531,7 +531,7 @@ export default function Dashboard() {
                   )}
                   %
                 </span>
-                from Day 1
+                from {selectedDay}
               </p>
               <div className="flex items-center mt-1.5 gap-2.5">
                 <span

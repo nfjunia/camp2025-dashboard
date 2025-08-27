@@ -1,7 +1,5 @@
 "use client";
-
 import type React from "react";
-
 import {
   Card,
   CardContent,
@@ -41,6 +39,10 @@ import {
   AreaChart,
 } from "recharts";
 import Header from "@/components/pastor/Header";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import FullPageLoader from "@/components/FullPageLoader";
+import AppSidebar from "@/components/pastor/app-sidebar";
 
 interface GenderData {
   name: string;
@@ -83,8 +85,8 @@ interface AgeDistribution {
 
 const networkInfo = {
   name: "Kabod Assembly",
-  pastor: "Pastor John Mensah",
-  location: "Accra Central",
+  pastor: "Pastor David Jnr",
+  location: "Bono Region",
   establishedYear: 2018,
 };
 
@@ -106,7 +108,7 @@ const dailyDemographics: DailyDemographics = {
     gender: [
       { name: "Male", value: 180 },
       { name: "Female", value: 190 },
-      { name: "Other", value: 0 },
+      { name: "Other", value: 8 },
     ],
     age: [
       { ageGroup: "0-12", count: 45 },
@@ -176,10 +178,11 @@ const ageData: AgeDistribution[] = [
 ];
 
 const campData = [
-  { day: "Day 1", total: 3200 },
-  { day: "Day 2", total: 3800 },
-  { day: "Day 3", total: 3500 },
-  { day: "Day 4", total: 4200 },
+  { month: "August", total: 1400 },
+  { month: "September", total: 20000 },
+  { month: "October", total: 18000 },
+  { month: "November", total: 900 },
+  { month: "December", total: 12000 },
 ];
 
 const maritalStatusData: MaritalStatusData[] = [
@@ -253,409 +256,436 @@ const CustomAttendanceTooltip: React.FC<any> = ({
 };
 
 export default function NetworkDashboard() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const goToPayment = () => {
+    setLoading(true);
+
+    setTimeout(() => {
+      router.push("/web/pastor/payment");
+    }, 500);
+  };
+  if (loading) {
+    return <FullPageLoader />;
+  }
   return (
-    <div className="w-full mx-auto bg-neutral-100 pb-10 p-4 md:p-6">
-      <Header />
-      <div className="w-full space-y-2 p-4 bg-white mt-16 rounded-md border">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="mb-2 text-[15px] font-bold">
-              {networkInfo.name} - Camp Dashboard
-            </h1>
-            <p className="text-xs text-gray-600">
-              Network overview for {networkInfo.pastor} | {networkInfo.location}
-            </p>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <MapPin className="h-4 w-4" />
-            <span>Est. {networkInfo.establishedYear}</span>
+    <div className="w-full mx-auto pb-16">
+      <div className="w-full">
+        <div className="relative w-full">
+          <Header />{" "}
+          <div className=" w-full">
+            <div className="w-full space-y-2 bg-white p-5 rounded-md border">
+              <div className="flex items-center">
+                <div>
+                  <h1 className="mb-2 text-[15px] font-bold">
+                    {networkInfo.name} - Camp Dashboard
+                  </h1>
+                  <p className="text-xs text-gray-600">
+                    Network overview for {networkInfo.pastor} |{" "}
+                    {networkInfo.location}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <Separator className="mt-4" />
+            <div className="mb-8 mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {/* Network Payments */}
+              <Card className="border-b-4 payment relative border-b-[#0fa2f7]">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium">
+                    Network Payments
+                  </CardTitle>
+                  <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
+                    <Wallet className="h-4 w-4" />
+                  </button>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-xl font-bold">
+                    GHS {totalPayments.toLocaleString()}
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-xs mt-1 text-muted-foreground">
+                      <span className="bg-[#30961c]/15 text-[#30961c] px-1.5 py-0.5 mr-1.5 rounded-full">
+                        +18.5%
+                      </span>
+                      from last week
+                    </p>
+                  </div>
+                  <div className="flex items-center mt-1 gap-2.5">
+                    <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
+                    <div className="text-xs flex items-center text-muted-foreground">
+                      Camp registration payments
+                    </div>
+                  </div>
+                  <button
+                    onClick={goToPayment}
+                    className="absolute text-xs flex border rounded-md px-4 py-2 cursor-pointer items-center text-muted-foreground bottom-4 right-3"
+                  >
+                    + payment
+                  </button>
+                </CardContent>
+              </Card>
+
+              {/* Camp Registrations */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium">
+                    Camp Registered
+                  </CardTitle>
+                  <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
+                    <UserCheck className="h-4 w-4" />
+                  </button>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {totalRegistered.toLocaleString()}
+                  </div>
+                  <div>
+                    <div className="text-xs flex mt-1 items-center text-muted-foreground">
+                      <div className="bg-[#30961c]/15 flex items-center gap-1 px-1.5 mr-1 py-0.5 rounded-xl">
+                        <TrendingUp size={14} color="#30961c" />
+                        <span className="text-[#30961c] pr-2.5">+12</span>
+                      </div>
+                      <div>
+                        <span>people today</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-1 gap-2.5">
+                      <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
+                      <div className="text-xs flex items-center text-muted-foreground">
+                        {registeredByOthers.toLocaleString()} people registered
+                        by other users
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Average Attendance */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                  <CardTitle className="text-sm font-medium">
+                    Avg Daily Attendance
+                  </CardTitle>
+                  <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
+                    <CalendarDays className="h-4 w-4" />
+                  </button>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {(
+                      attendanceData.reduce(
+                        (sum, day) =>
+                          sum + day.morning + day.afternoon + day.evening,
+                        0
+                      ) / attendanceData.length
+                    ).toFixed(0)}
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]"></span>
+                    <p className="text-xs text-muted-foreground">
+                      Kabod Assembly Network
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="w-full grid gap-6 grid-cols-1 lg:grid-cols-2">
+              {/* Camp Service Offerings */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Network Camp Payments</CardTitle>
+                  <CardDescription>
+                    Monthly payments collected from{" "}
+                    {networkInfo?.name ?? "Kabod Assembly"} for the 4-month camp
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="px-0">
+                  <div className="h-72">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={campData} accessibilityLayer>
+                        <defs>
+                          <linearGradient
+                            id="colorPayment"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#0fa2f7"
+                              stopOpacity={0.3}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#4db9f7"
+                              stopOpacity={0.1}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 12, fill: "#000" }}
+                        />
+                        <YAxis
+                          domain={[0, 4500]}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 12, fill: "#6b7280" }}
+                          tickFormatter={(value) =>
+                            `GHS ${value.toLocaleString()}`
+                          }
+                        />
+                        <Tooltip
+                          content={
+                            <CustomTooltip cursor={{ stroke: "transparent" }} />
+                          }
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="total"
+                          stroke="#0fa2f7"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorPayment)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {/* Bottom summary */}
+                  <div className="mt-6 px-3">
+                    <div className="flex items-center text-sm gap-2 mb-2">
+                      <span className="text-gray-900 font-medium">
+                        Payments
+                      </span>
+                      <span className="text-[#30961c] font-medium">
+                        increased
+                      </span>
+                      <span className="text-gray-900 font-medium">
+                        by {lastDayChange.toFixed(1)}% on final month
+                      </span>
+                      <svg
+                        className="w-4 h-4 text-[#30961c]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-gray-500 text-xs">
+                      Month 1 - Month 4 2025
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Gender Breakdown */}
+              <Card className="w-full">
+                <CardHeader>
+                  <CardTitle>Network Gender Distribution</CardTitle>
+                  <CardDescription>
+                    Gender breakdown of registered network members.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                  <ChartContainer
+                    config={{
+                      male: { label: "Male", color: GENDER_COLORS[0] },
+                      female: { label: "Female", color: GENDER_COLORS[1] },
+                    }}
+                    className="h-[300px] w-full"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={genderData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={90}
+                          label
+                        >
+                          {genderData.map((_, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={GENDER_COLORS[index % GENDER_COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 mt-8">
+              {/* Age Distribution */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Network Age Distribution</CardTitle>
+                  <CardDescription>
+                    Age categories of network members.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                  <ChartContainer
+                    config={{
+                      count: { label: "Count", color: "#f59e0b" },
+                    }}
+                    className="h-[250px] w-full"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart accessibilityLayer data={ageData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                          dataKey="ageGroup"
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <YAxis tickLine={false} axisLine={false} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Line
+                          type="monotone"
+                          dataKey="count"
+                          stroke="#f59e0b"
+                          strokeWidth={2}
+                          dot={{ fill: "#f59e0b", r: 4 }}
+                          activeDot={{ r: 6 }}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+
+              {/* Marital Status */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Marital Status Distribution</CardTitle>
+                  <CardDescription>
+                    Marital status breakdown of network attendees.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center justify-center">
+                  <ChartContainer
+                    config={{
+                      single: { label: "Single", color: MARITAL_COLORS[0] },
+                      married: { label: "Married", color: MARITAL_COLORS[1] },
+                      widowed: { label: "Other", color: MARITAL_COLORS[2] },
+                    }}
+                    className="h-[250px] w-full"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={maritalStatusData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={90}
+                          label
+                        >
+                          {maritalStatusData.map((_, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={
+                                MARITAL_COLORS[index % MARITAL_COLORS.length]
+                              }
+                            />
+                          ))}
+                        </Pie>
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+
+              {/** */}
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Network Daily Service Attendance</CardTitle>
+                  <CardDescription>
+                    Attendance breakdown for Morning, Afternoon, and Evening
+                    services from {networkInfo.name}.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ChartContainer
+                    config={{
+                      morning: {
+                        label: "Morning",
+                        color: "hsl(210 40% 96.1%)",
+                      },
+                      afternoon: {
+                        label: "Afternoon",
+                        color: "hsl(217.2 91.2% 59.8%)",
+                      },
+                      evening: {
+                        label: "Evening",
+                        color: "hsl(142.1 76.2% 36.3%)",
+                      },
+                    }}
+                    className="h-[300px] w-full"
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={attendanceData}>
+                        <XAxis
+                          dataKey="day"
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <YAxis tickLine={false} axisLine={false} />
+                        <ChartTooltip
+                          content={
+                            <CustomAttendanceTooltip
+                              dailyDemographics={dailyDemographics}
+                            />
+                          }
+                        />
+                        <Legend />
+                        <Bar
+                          dataKey="morning"
+                          fill="var(--color-morning)"
+                          stackId="a"
+                          radius={[4, 4, 0, 0]}
+                        />
+                        <Bar
+                          dataKey="afternoon"
+                          fill="var(--color-afternoon)"
+                          stackId="a"
+                        />
+                        <Bar
+                          dataKey="evening"
+                          fill="var(--color-evening)"
+                          stackId="a"
+                          radius={[0, 0, 4, 4]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
-
-      <Separator className="mt-4" />
-
-      <div className="mb-8 mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* Network Payments */}
-        <Card className="border-b-4 payment border-b-[#0fa2f7]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-sm font-medium">
-              Network Payments
-            </CardTitle>
-            <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
-              <Wallet className="h-4 w-4" />
-            </button>
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl font-bold">
-              GHS {totalPayments.toLocaleString()}
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs mt-1 text-muted-foreground">
-                <span className="bg-[#30961c]/15 text-[#30961c] px-1.5 py-0.5 mr-1.5 rounded-full">
-                  +18.5%
-                </span>
-                from last week
-              </p>
-            </div>
-            <div className="flex items-center mt-1 gap-2.5">
-              <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
-              <div className="text-xs flex items-center text-muted-foreground">
-                Camp registration payments
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        {/* Network Members */}
-
-        {/* Camp Registrations */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-sm font-medium">
-              Camp Registered
-            </CardTitle>
-            <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
-              <UserCheck className="h-4 w-4" />
-            </button>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {totalRegistered.toLocaleString()}
-            </div>
-            <div>
-              <div className="text-xs flex mt-1 items-center text-muted-foreground">
-                <div className="bg-[#30961c]/15 flex items-center gap-1 px-1.5 mr-1 py-0.5 rounded-xl">
-                  <TrendingUp size={14} color="#30961c" />
-                  <span className="text-[#30961c] pr-2.5">+12</span>
-                </div>
-                <div>
-                  <span>people today</span>
-                </div>
-              </div>
-              <div className="flex items-center mt-1 gap-2.5">
-                <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
-                <div className="text-xs flex items-center text-muted-foreground">
-                  {registeredByOthers.toLocaleString()} people registered by
-                  other users
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Average Attendance */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle className="text-sm font-medium">
-              Avg Daily Attendance
-            </CardTitle>
-            <button className="bg-[#0fa2f7]/15 text-[#0fa2f7] p-2 rounded-md">
-              <CalendarDays className="h-4 w-4" />
-            </button>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {(
-                attendanceData.reduce(
-                  (sum, day) => sum + day.morning + day.afternoon + day.evening,
-                  0
-                ) / attendanceData.length
-              ).toFixed(0)}
-            </div>
-            <div className="flex items-center gap-2.5">
-              <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]"></span>
-              <p className="text-xs text-muted-foreground">
-                Kabod Assembly Network
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="w-full grid gap-6 grid-cols-1 lg:grid-cols-2">
-        {/* Camp Service Offerings */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Network Camp Offerings</CardTitle>
-            <CardDescription>
-              Daily offerings from {networkInfo.name} for the 4-day camp
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="relative">
-              <div className="absolute left-0 top-0 flex flex-col justify-between h-64 font-light text-xs text-gray-500 py-2">
-                <span>
-                  GHS
-                  <br />
-                  4,500
-                </span>
-                <span>
-                  GHS
-                  <br />
-                  3,500
-                </span>
-                <span>
-                  GHS
-                  <br />
-                  2,500
-                </span>
-                <span>
-                  GHS
-                  <br />
-                  1,500
-                </span>
-                <span>GHS 0</span>
-              </div>
-              <div className="ml-16 h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={campData}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
-                  >
-                    <defs>
-                      <linearGradient
-                        id="colorOffering"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop
-                          offset="5%"
-                          stopColor="#0fa2f7"
-                          stopOpacity={0.3}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor="#4db9f7"
-                          stopOpacity={0.1}
-                        />
-                      </linearGradient>
-                    </defs>
-                    <XAxis
-                      dataKey="day"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 10, fill: "#000" }}
-                    />
-                    <YAxis hide domain={[0, 4500]} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Area
-                      type="monotone"
-                      dataKey="total"
-                      stroke="#0fa2f7"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#colorOffering)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            <div className="mt-6">
-              <div className="flex items-center text-sm gap-2 mb-2">
-                <span className="text-gray-900 font-medium">Offerings</span>
-                <span className="text-[#30961c] font-medium">increased</span>
-                <span className="text-gray-900 font-medium">
-                  by {lastDayChange.toFixed(1)}% on final day
-                </span>
-                <svg
-                  className="w-4 h-4 text-[#30961c]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-              </div>
-              <p className="text-gray-500 text-xs">Day 1 - Day 4 2025</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Gender Breakdown */}
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Network Gender Distribution</CardTitle>
-            <CardDescription>
-              Gender breakdown of registered network members.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            <ChartContainer
-              config={{
-                male: { label: "Male", color: GENDER_COLORS[0] },
-                female: { label: "Female", color: GENDER_COLORS[1] },
-              }}
-              className="h-[300px] w-full"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={genderData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={90}
-                    label
-                  >
-                    {genderData.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={GENDER_COLORS[index % GENDER_COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-3 mt-8">
-        {/* Age Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Network Age Distribution</CardTitle>
-            <CardDescription>
-              Age categories of network members.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            <ChartContainer
-              config={{
-                count: { label: "Count", color: "#f59e0b" },
-              }}
-              className="h-[250px] w-full"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart accessibilityLayer data={ageData}>
-                  <CartesianGrid vertical={false} />
-                  <XAxis dataKey="ageGroup" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line
-                    type="monotone"
-                    dataKey="count"
-                    stroke="#f59e0b"
-                    strokeWidth={2}
-                    dot={{ fill: "#f59e0b", r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* Marital Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Marital Status Distribution</CardTitle>
-            <CardDescription>
-              Marital status breakdown of network attendees.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            <ChartContainer
-              config={{
-                single: { label: "Single", color: MARITAL_COLORS[0] },
-                married: { label: "Married", color: MARITAL_COLORS[1] },
-                widowed: { label: "Other", color: MARITAL_COLORS[2] },
-              }}
-              className="h-[250px] w-full"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={maritalStatusData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={90}
-                    label
-                  >
-                    {maritalStatusData.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={MARITAL_COLORS[index % MARITAL_COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/** */}
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Network Daily Service Attendance</CardTitle>
-            <CardDescription>
-              Attendance breakdown for Morning, Afternoon, and Evening services
-              from {networkInfo.name}.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer
-              config={{
-                morning: { label: "Morning", color: "hsl(210 40% 96.1%)" },
-                afternoon: {
-                  label: "Afternoon",
-                  color: "hsl(217.2 91.2% 59.8%)",
-                },
-                evening: { label: "Evening", color: "hsl(142.1 76.2% 36.3%)" },
-              }}
-              className="h-[300px] w-full"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={attendanceData}>
-                  <XAxis dataKey="day" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} />
-                  <ChartTooltip
-                    content={
-                      <CustomAttendanceTooltip
-                        dailyDemographics={dailyDemographics}
-                      />
-                    }
-                  />
-                  <Legend />
-                  <Bar
-                    dataKey="morning"
-                    fill="var(--color-morning)"
-                    stackId="a"
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="afternoon"
-                    fill="var(--color-afternoon)"
-                    stackId="a"
-                  />
-                  <Bar
-                    dataKey="evening"
-                    fill="var(--color-evening)"
-                    stackId="a"
-                    radius={[0, 0, 4, 4]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ const Header = () => {
         blur ? "backdrop-blur-xs bg-white/50" : "bg-white"
       } z-20 top-0 h-[70px] border`}
     >
-      <div className="w-full flex items-center h-full mx-auto justify-between max-w-[1300px]">
+      <div className="w-full flex items-center h-full mx-auto justify-between max-w-[1600px]">
         {/* Logo */}
         <Link href="/camp-admin" className="flex items-center gap-2">
           <Image src={churchLogo} height={80} width={100} alt="church_logo" />

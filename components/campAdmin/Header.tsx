@@ -82,21 +82,20 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center outline-none cursor-pointer gap-2.5">
                 <Avatar>
-                  {/**<AvatarImage src={""} /> */}
                   <AvatarFallback className="text-xs font-bold">
-                    PD
+                    CA
                   </AvatarFallback>
                 </Avatar>
                 <span className="font-light text-[13px] hidden lg:block">
-                  Pastor David Jnr
+                  Camp Admin
                 </span>
                 <ChevronDown size={13} className=" hidden lg:block" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>pastordavid@gmail.com</DropdownMenuLabel>
+                <DropdownMenuLabel>campadmin@gmail.com</DropdownMenuLabel>
                 <DropdownMenuLabel className="flex">
                   <div className="bg-[#30961c]/15 text-xs font-medium py-0.5 px-3 rounded-xl text-[#30961c]">
-                    Kabod Assembly
+                    Camp Admin
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

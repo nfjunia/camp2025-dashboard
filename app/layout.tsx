@@ -1,6 +1,6 @@
 import "./globals.css";
 import ClientToaster from "@/components/ClientToaster";
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,8 +9,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <ClientToaster />
+        <SidebarProvider defaultOpen>
+          {children}
+          <ClientToaster />
+        </SidebarProvider>
       </body>
     </html>
   );

@@ -1,7 +1,11 @@
 import React from "react";
 
 const page = () => {
-  return <div>page</div>;
+  return (
+    <div className="">
+      <div className="flex"></div>
+    </div>
+  );
 };
 
 export default page;
