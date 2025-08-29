@@ -16,12 +16,17 @@ export default function PastorLayout({
 
   return (
     <div
-      className={`flex bg-neutral-100 min-h-screen w-full ${
+      className={`flex flex-col md:flex-row bg-neutral-100 min-h-screen w-full ${
         mounted ? "pt-[70px]" : ""
       }`}
     >
-      <AppSidebar />
-      <main className="flex-1 p-6">{children}</main>
+      {/* Sidebar */}
+      <div className="w-full md:w-64">
+        <AppSidebar />
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 px-4 py-6 md:px-6">{children}</main>
     </div>
   );
 }

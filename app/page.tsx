@@ -133,7 +133,7 @@ const Page = () => {
                       <FormControl>
                         <Input
                           placeholder="Password"
-                          className="border h-11 bg- w-full rounded-md"
+                          className="border h-11 w-full rounded-md"
                           {...field}
                         />
                       </FormControl>

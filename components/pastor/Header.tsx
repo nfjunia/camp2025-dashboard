@@ -41,13 +41,13 @@ const Header = () => {
   return (
     <div
       className={`w-full fixed transition-all ${
-        state === "collapsed" ? "pl-14" : "lg:pl-72"
+        state === "collapsed" ? "pl-" : "lg:pl-"
       } right-0 duration-200 px-5 ${
         blur ? "backdrop-blur-xs bg-white/50" : "bg-white"
       } z-20 top-0 h-[70px] border`}
     >
       <div className="w-full flex items-center h-full  mx-auto justify-between max-w-[1600px]">
-        <SidebarTrigger className="ml-[-10px]" />
+        <SidebarTrigger />
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

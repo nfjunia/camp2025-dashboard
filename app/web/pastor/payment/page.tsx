@@ -311,8 +311,8 @@ const Page = () => {
               {/* Members Table */}
               <div className="bg-white rounded-md">
                 <CardContent className="p-0">
-                  <div className="overflow-x-auto">
-                    <Table>
+                  <div className="rounded-md border overflow-x-auto">
+                    <Table className="min-w-[700px]">
                       <TableHeader>
                         <TableRow>
                           <TableHead className="w-[300px]">Member</TableHead>
