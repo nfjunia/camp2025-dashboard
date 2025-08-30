@@ -36,8 +36,10 @@ import {
   Trash2,
   Search,
   Plus,
+  FolderOpen,
 } from "lucide-react";
 import Header from "@/components/pastor/Header";
+import { Separator } from "@/components/ui/separator";
 
 function DateCell({ dateString }: { dateString: string }) {
   const formatted = new Intl.DateTimeFormat("en-GB", {
@@ -55,7 +57,7 @@ const cellLeaders = [
     name: "Sarah Johnson",
     email: "sarah.johnson@church.org",
     phone: "+1 (555) 123-4567",
-    cellName: "Grace Cell",
+    Phone_number: "Grace Cell",
     memberCount: 12,
     location: "Downtown Campus",
     joinDate: "2023-01-15",
@@ -66,7 +68,7 @@ const cellLeaders = [
     name: "Michael Chen",
     email: "michael.chen@church.org",
     phone: "+1 (555) 234-5678",
-    cellName: "Hope Cell",
+    Phone_number: "Hope Cell",
     memberCount: 8,
     location: "North Campus",
     joinDate: "2023-03-20",
@@ -77,7 +79,7 @@ const cellLeaders = [
     name: "Emily Rodriguez",
     email: "emily.rodriguez@church.org",
     phone: "+1 (555) 345-6789",
-    cellName: "Faith Cell",
+    Phone_number: "Faith Cell",
     memberCount: 15,
     location: "South Campus",
     joinDate: "2022-11-10",
@@ -88,7 +90,7 @@ const cellLeaders = [
     name: "David Thompson",
     email: "david.thompson@church.org",
     phone: "+1 (555) 456-7890",
-    cellName: "Love Cell",
+    Phone_number: "Love Cell",
     memberCount: 10,
     location: "East Campus",
     joinDate: "2023-05-08",
@@ -140,16 +142,21 @@ export default function CellLeaderDashboard() {
       <Header />
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-foreground text-balance">
-              Cell Leader Management
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Manage your cell leaders and oversee their communities
-            </p>
+
+        <div className="w-full space-y-2 bg-white p-5 rounded-md border">
+          <div className="flex items-center">
+            <div>
+              <h1 className="mb-2 text-[15px] font-bold">
+                Cell Leader Management
+              </h1>
+              <p className="text-xs text-gray-600">
+                {" "}
+                Manage your cell leaders and oversee their communities
+              </p>
+            </div>
           </div>
         </div>
+        <Separator className="mt-4" />
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -212,8 +219,9 @@ export default function CellLeaderDashboard() {
             <CardDescription>
               Manage and oversee your cell leaders
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+            <div className="py-3">
+              <Separator />
+            </div>
             <div className="flex items-center space-x-2 mb-6">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -221,18 +229,20 @@ export default function CellLeaderDashboard() {
                   placeholder="Search by name, cell, or location..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 lg:w-[440px]"
                 />
               </div>
             </div>
-
+          </CardHeader>
+          <CardContent className="border-t w-full">
             {/* Leaders Table */}
-            <div className="rounded-md border overflow-x-auto">
+            <div className=" overflow-x-auto w-full">
               <Table className="min-w-[700px]">
-                <TableHeader>
+                <TableHeader className="w-full">
                   <TableRow>
                     <TableHead>Leader</TableHead>
-                    <TableHead>Cell Name</TableHead>
+                    <TableHead>Email Address</TableHead>
+                    <TableHead>Phone Number</TableHead>
                     <TableHead>Location</TableHead>
                     <TableHead>Members</TableHead>
                     <TableHead>Join Date</TableHead>
@@ -260,27 +270,18 @@ export default function CellLeaderDashboard() {
                             <div className="font-medium text-foreground">
                               {leader.name}
                             </div>
-                            <div className="text-sm text-muted-foreground">
-                              {leader.email}
-                            </div>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="secondary"
-                          className="bg-secondary/10 text-secondary hover:bg-secondary/20"
-                        >
-                          {leader.cellName}
-                        </Badge>
-                      </TableCell>
+                      <TableCell>{leader.email}</TableCell>
+                      <TableCell>{leader.phone}</TableCell>
                       <TableCell className="text-muted-foreground">
                         {leader.location}
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <Users className="h-4 w-4 text-muted-foreground" />
-                          <span className="font-medium">
+                        <div className="flex bg-[#0fa2f7]/10 px-3 py-1 rounded-2xl items-center space-x-1">
+                          <Users className="h-4 w-4 text-[#0fa2f7]" />
+                          <span className="font-medium text-[#0fa2f7]">
                             {leader.memberCount}
                           </span>
                         </div>
@@ -300,7 +301,7 @@ export default function CellLeaderDashboard() {
                             <DropdownMenuItem
                               onClick={() => handleViewMembers(leader.id)}
                             >
-                              <Eye className="mr-2 h-4 w-4" />
+                              <FolderOpen className="mr-2 h-4 w-4" />
                               View Members
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -339,7 +340,7 @@ function CellMembersView({
   leader: any;
   onBack: () => void;
 }) {
-  // Mock data for cell members
+  // Mock data for cell members.,
   const members = [
     {
       id: 1,
@@ -399,7 +400,7 @@ function CellMembersView({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div>
-              <h1 className="text-3xl font-bold text-foreground text-balance">
+              <h1 className="text-xl font-bold text-foreground text-balance">
                 {leader.cellName} Members
               </h1>
               <p className="text-muted-foreground mt-2">
@@ -416,7 +417,9 @@ function CellMembersView({
               <CardTitle className="text-sm font-medium">
                 Total Members
               </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <Users className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary">
@@ -430,7 +433,9 @@ function CellMembersView({
               <CardTitle className="text-sm font-medium">
                 Payment Status
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <DollarSign className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-secondary">
@@ -445,7 +450,9 @@ function CellMembersView({
               <CardTitle className="text-sm font-medium">
                 Avg Attendance
               </CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <Calendar className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -459,7 +466,9 @@ function CellMembersView({
               <CardTitle className="text-sm font-medium">
                 Demographics
               </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <Users className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-sm space-y-1">

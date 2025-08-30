@@ -41,7 +41,7 @@ const Header = () => {
   return (
     <div
       className={`w-full fixed transition-all ${
-        state === "collapsed" ? "pl-" : "lg:pl-"
+        state === "collapsed" ? "pl-14" : "lg:pl-72"
       } right-0 duration-200 px-5 ${
         blur ? "backdrop-blur-xs bg-white/50" : "bg-white"
       } z-20 top-0 h-[70px] border`}
