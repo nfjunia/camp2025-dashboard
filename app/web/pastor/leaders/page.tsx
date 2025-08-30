@@ -105,7 +105,7 @@ export default function CellLeaderDashboard() {
   const filteredLeaders = cellLeaders.filter(
     (leader) =>
       leader.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      leader.cellName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      leader.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
       leader.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
