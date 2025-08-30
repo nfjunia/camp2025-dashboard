@@ -106,9 +106,8 @@ export default function AppSidebar() {
                     <DollarSign
                       size={17}
                       className={`mr-2 ${
-                        pathName.startsWith(
-                          "/web/pastor/payment" || "/web/pastor/transaction"
-                        )
+                        pathName.startsWith("/web/pastor/payment") ||
+                        pathName.startsWith("/web/pastor/transactions")
                           ? "text-[#0fa2f7]"
                           : ""
                       }`}
