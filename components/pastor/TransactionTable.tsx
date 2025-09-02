@@ -18,6 +18,7 @@ import {
   Phone,
   Smartphone,
   MoreHorizontal,
+  FolderOpen,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -232,7 +233,7 @@ export function TransactionTable() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Recent Transactions</span>
+            <span>All Transactions</span>
             <span className="text-sm font-normal text-muted-foreground">
               {transactions.length} total transactions
             </span>
@@ -301,6 +302,7 @@ export function TransactionTable() {
                             className="cursor-pointer"
                             onClick={() => handleViewInvoice(transaction)}
                           >
+                            <FolderOpen />
                             View Invoice
                           </DropdownMenuItem>
                         </DropdownMenuContent>
