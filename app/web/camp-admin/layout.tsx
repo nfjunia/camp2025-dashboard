@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AppSidebar from "@/components/pastor/app-sidebar";
+import AppSidebar from "@/components/campAdmin/AppSidebar";
 
 export default function PastorLayout({
   children,

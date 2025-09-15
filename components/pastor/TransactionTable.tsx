@@ -170,7 +170,7 @@ function PaymentMethodBadge({ method }: { method: string }) {
   const getMethodColor = (method: string) => {
     switch (method.toLowerCase()) {
       case "mtn":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        return "bg-yellow-600/10 text-yellow-800 border-yellow-200";
       case "vodafone":
         return "bg-red-100 text-red-800 border-red-200";
       case "hubtel":

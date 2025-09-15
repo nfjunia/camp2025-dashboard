@@ -120,9 +120,9 @@ export default function CellLeaderDashboard() {
   };
 
   return (
-    <div className="h-screen">
+    <div className="h-screen w-full">
       <Header />
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="w-full mx-auto space-y-6">
         {/* Header */}
         <div className="w-full space-y-2 bg-white p-5 rounded-md border">
           <div className="flex items-center">

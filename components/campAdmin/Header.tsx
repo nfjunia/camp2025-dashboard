@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Bell } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import { User } from "lucide-react";
 import {
   DropdownMenu,
@@ -13,16 +13,16 @@ import {
 import { LogOut } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import churchLogo from "../../public/images/HWogo.png";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { SidebarTrigger, useSidebar } from "../ui/sidebar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Input } from "../ui/input";
 
 const Header = () => {
   const navigate = useRouter();
   const [blur, setBlur] = useState(false);
-
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [notifications] = useState<string[]>([]);
 
   useEffect(() => {
@@ -47,7 +47,18 @@ const Header = () => {
       } z-20 top-0 h-[70px] border`}
     >
       <div className="w-full flex items-center h-full  mx-auto justify-between max-w-[1600px]">
-        <SidebarTrigger className="ml-[-10px]" />
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="ml-[-10px] " />
+          <div
+            onClick={() => setIsSearchOpen(true)}
+            className="py-2 rounded-md  px-4 lg:w-[400px] bg-white  gap-3 flex items-center border"
+          >
+            <Search size={18} />
+            <p className="text-neutral-400 text-[13px]  font-semibold">
+              Search user by name and contact
+            </p>
+          </div>
+        </div>
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -111,6 +122,33 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Search</DialogTitle>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <div className="grid flex-1 gap-2">
+              <Input
+                placeholder="Search by name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full"
+                autoFocus
+              />
+            </div>
+          </div>
+          {searchQuery && (
+            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+              <p className="text-sm text-gray-600">
+                Searching for:{" "}
+                <span className="font-medium">{searchQuery}</span>
+              </p>
+              {/* Add your search results here */}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

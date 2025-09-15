@@ -19,10 +19,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, DollarSign, Calendar, ArrowLeft } from "lucide-react";
+import { Users, DollarSign, Calendar, ArrowLeft, Wallet } from "lucide-react";
 import Header from "@/components/pastor/Header";
 import Link from "next/link";
-import { FaWallet } from "react-icons/fa6";
 
 function DateCell({ dateString }: { dateString: string }) {
   const formatted = new Intl.DateTimeFormat("en-GB", {
@@ -141,7 +140,7 @@ export default function CellMembersPage({
 
   if (!leader) {
     return (
-      <div className="min-h-screen p-6">
+      <div className="min-h-screen">
         <Header />
         <div className="max-w-7xl mx-auto">
           <div className="text-center py-12">
@@ -170,9 +169,9 @@ export default function CellMembersPage({
   );
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen">
       <Header />
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className=" mx-auto space-y-6">
         {/* Header with Back Button */}
         <div className="flex items-center justify-between">
           <div className="w-full space-y-2 bg-white p-5 rounded-md border">
@@ -251,7 +250,7 @@ export default function CellMembersPage({
               </CardTitle>
 
               <button className="bg-white/20 p-2 rounded-md">
-                <FaWallet className="h-4 w-4 text-white" />
+                <Wallet className="h-4 w-4 text-white" />
               </button>
             </CardHeader>
             <CardContent>
@@ -260,7 +259,7 @@ export default function CellMembersPage({
               </div>
               <div className="w-full mt-1 flex items-center gap-1">
                 <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
-                <p className="text-xs">Total amount collected</p>
+                <p className="text-xs">Total amount paid</p>
               </div>
             </CardContent>
           </Card>

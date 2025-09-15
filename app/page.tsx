@@ -94,7 +94,7 @@ const Page = () => {
 
   return (
     <div className="flex h-screen  bg-neutral-50 items-center px-5 w-full justify-center">
-      <div className=" flex md:w-[70%] w-full bg-white shadow-sm md:h-[600px] rounded-md">
+      <div className=" flex md:w-[56%] w-full bg-white shadow-sm md:h-[600px] rounded-md">
         <div className="md:w-[50%] px-8">
           <div className="py-8">
             <h1 className="font-bold text-center mt-1 text-[25px]">

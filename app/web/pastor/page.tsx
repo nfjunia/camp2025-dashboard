@@ -270,9 +270,9 @@ export default function NetworkDashboard() {
     return <FullPageLoader />;
   }
   return (
-    <div className="w-full mx-auto pb-16">
+    <div className="w-full mx-auto pb-16 ">
       <div className="w-full">
-        <div className="relative w-full">
+        <div className="relative absolute h-full w-full">
           <Header />{" "}
           <div className=" w-full">
             <div className="w-full space-y-2 bg-white p-5 rounded-md border">
@@ -318,12 +318,6 @@ export default function NetworkDashboard() {
                       Camp registration payments
                     </div>
                   </div>
-                  <button
-                    onClick={goToPayment}
-                    className="absolute text-xs flex border rounded-md px-4 py-2 cursor-pointer items-center text-muted-foreground bottom-4 right-3"
-                  >
-                    + payment
-                  </button>
                 </CardContent>
               </Card>
 
