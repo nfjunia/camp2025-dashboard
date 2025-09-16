@@ -86,7 +86,7 @@ export default function AppSidebar() {
                           : ""
                       }`}
                     />
-                    <span>Cell Leader</span>
+                    <span>Cell Leaders</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -134,7 +134,7 @@ export default function AppSidebar() {
                       }`}
                     >
                       <Link href="/web/pastor/payment" className="text-[12px]">
-                        Make Payment
+                        All Payments
                       </Link>
                     </SidebarMenuButton>
 

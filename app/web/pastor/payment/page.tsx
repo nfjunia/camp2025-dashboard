@@ -50,6 +50,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Header from "@/components/pastor/Header";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 const mockUsers = [
   {
@@ -287,7 +288,7 @@ export default function ChurchDashboard() {
       return (
         <Badge
           variant="destructive"
-          className="bg-red-100 text-red-800 hover:bg-red-200"
+          className="bg-red-600/15 text-red-600 border border-red-600/20"
         >
           Not Paid
         </Badge>
@@ -296,7 +297,7 @@ export default function ChurchDashboard() {
       return (
         <Badge
           variant="secondary"
-          className="bg-amber-100 text-amber-800 hover:bg-amber-200"
+          className="bg-[#ff8042]/15 border border-[#ff8042]/20 text-[#ff8042]"
         >
           Partial
         </Badge>
@@ -305,7 +306,7 @@ export default function ChurchDashboard() {
       return (
         <Badge
           variant="default"
-          className="bg-green-100 text-green-800 hover:bg-green-200"
+          className="bg-[#30961c]/10 border border-[#30961c]/20 text-[#30961c]"
         >
           Paid
         </Badge>
@@ -373,13 +374,13 @@ export default function ChurchDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border border-b-4">
+          <Card className="bg-card border-border border-b-4 border-b-[#30961c]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-card-foreground">
                 Fully Paid
               </CardTitle>
 
-              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+              <button className="bg-[#30961c]/10 p-2 rounded-md">
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </button>
             </CardHeader>
@@ -393,6 +394,7 @@ export default function ChurchDashboard() {
                 <div className="text-xs flex items-center text-muted-foreground">
                   <p className="text-xs text-muted-foreground">
                     {((paidUsers / totalUsers) * 100).toFixed(1)}% of total
+                    registered users under Kabod Assembley
                   </p>
                 </div>
               </div>
@@ -467,7 +469,7 @@ export default function ChurchDashboard() {
                   placeholder="Search by name or email..."
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  className="pl-10 bg-input border-border"
+                  className="pl-10 border-border"
                 />
               </div>
 
@@ -519,6 +521,7 @@ export default function ChurchDashboard() {
                   <TableRow className="bg-muted/50">
                     <TableHead className="text-foreground">Member</TableHead>
                     <TableHead className="text-foreground">Contact</TableHead>
+                    <TableHead className="text-foreground">Email</TableHead>
                     <TableHead className="text-foreground">Camp Fee</TableHead>
                     <TableHead className="text-foreground">
                       Amount Paid
@@ -554,21 +557,21 @@ export default function ChurchDashboard() {
                         </div>
                       </TableCell>
                       <TableCell className="text-foreground">
-                        <div className="text-sm">
-                          <div>{user.email}</div>
-                          <div className="text-muted-foreground">
-                            {user.phone}
-                          </div>
-                        </div>
+                        {user.phone}
+                      </TableCell>
+                      <TableCell>
+                        {" "}
+                        <div>{user.email}</div>
                       </TableCell>
                       <TableCell className="text-foreground">
-                        ${user.campFee}
+                        <span className="font-semibold">GHS</span>
+                        {user.campFee}
                       </TableCell>
                       <TableCell className="text-foreground">
-                        ${user.amountPaid}
+                        GHS{user.amountPaid}
                       </TableCell>
                       <TableCell className="text-foreground">
-                        ${user.campFee - user.amountPaid}
+                        GHS{user.campFee - user.amountPaid}
                       </TableCell>
                       <TableCell>{getStatusBadge(user)}</TableCell>
                       <TableCell>
@@ -595,6 +598,15 @@ export default function ChurchDashboard() {
                                   }}
                                   className="cursor-pointer"
                                 >
+                                  {" "}
+                                  <span>
+                                    <Image
+                                      src={require("@/public/icons/folder.png")}
+                                      width={15}
+                                      height={15}
+                                      alt="open_icon"
+                                    />
+                                  </span>
                                   Manage
                                 </DropdownMenuItem>
                               </DialogTrigger>
@@ -631,7 +643,7 @@ export default function ChurchDashboard() {
                                     Camp Fee
                                   </div>
                                   <div className="text-2xl font-bold text-card-foreground">
-                                    ${user.campFee}
+                                    GHS{user.campFee}
                                   </div>
                                 </CardContent>
                               </Card>
@@ -641,7 +653,7 @@ export default function ChurchDashboard() {
                                     Amount Paid
                                   </div>
                                   <div className="text-2xl font-bold text-green-600">
-                                    ${user.amountPaid}
+                                    GHS{user.amountPaid}
                                   </div>
                                 </CardContent>
                               </Card>
@@ -651,7 +663,7 @@ export default function ChurchDashboard() {
                                     Balance Due
                                   </div>
                                   <div className="text-2xl font-bold text-red-600">
-                                    ${user.campFee - user.amountPaid}
+                                    GHS{user.campFee - user.amountPaid}
                                   </div>
                                 </CardContent>
                               </Card>
@@ -671,7 +683,7 @@ export default function ChurchDashboard() {
                                     >
                                       <div>
                                         <div className="font-medium text-foreground">
-                                          ${payment.amount}
+                                          GHS{payment.amount}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
                                           {payment.method} • {payment.reference}
@@ -729,7 +741,7 @@ export default function ChurchDashboard() {
                                         onChange={(e) =>
                                           setPaymentAmount(e.target.value)
                                         }
-                                        className="bg-input border-border"
+                                        className="bg-input mt-1.5 border-border"
                                       />
                                     </div>
 
@@ -747,14 +759,14 @@ export default function ChurchDashboard() {
                                         onChange={(e) =>
                                           setPaymentNotes(e.target.value)
                                         }
-                                        className="bg-input border-border"
+                                        className="bg-input mt-1.5 border-border"
                                       />
                                     </div>
 
                                     <div className="flex gap-2">
                                       <Button
                                         onClick={handleAddPayment}
-                                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                                        className="flex-1 bg-[#0fa2f7] text-primary-foreground hover:bg-primary/90"
                                         disabled={!paymentAmount}
                                       >
                                         Record Payment
