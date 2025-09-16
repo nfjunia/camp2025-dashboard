@@ -49,6 +49,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Header from "@/components/pastor/Header";
+import { Separator } from "@/components/ui/separator";
 
 const mockUsers = [
   {
@@ -333,47 +334,72 @@ export default function ChurchDashboard() {
       <div className="w-full mx-auto space-y-6">
         <Header />
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-primary">Kabod Assembly</h1>
-          <p className="text-lg text-muted-foreground">
-            Camp Payment Management System
-          </p>
-        </div>
 
+        <div className="w-full space-y-2 bg-white p-5 rounded-md border">
+          <div className="flex items-center">
+            <div>
+              <h1 className="mb-2 text-[15px] font-bold">
+                Kabod Assembley - Camp Dashboard
+              </h1>
+              <p className="text-xs text-gray-600">
+                Camp Payment Management System
+              </p>
+            </div>
+          </div>
+        </div>
+        <Separator className="mt-4" />
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-card border-border">
+          <Card className="bg-card border-border border-b-4 border-b-[#0fa2f7]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-card-foreground">
                 Total Members
               </CardTitle>
-              <Users className="h-4 w-4 text-primary" />
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <Users className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-card-foreground">
                 {totalUsers}
               </div>
+
+              <div className="flex items-center mt-1 gap-2.5">
+                <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
+                <div className="text-xs flex items-center text-muted-foreground">
+                  Total registered members under Kabod Assembley
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border">
+          <Card className="bg-card border-border border-b-4">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-card-foreground">
                 Fully Paid
               </CardTitle>
-              <CheckCircle className="h-4 w-4 text-green-600" />
+
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-card-foreground">
                 {paidUsers}
               </div>
-              <p className="text-xs text-muted-foreground">
-                {((paidUsers / totalUsers) * 100).toFixed(1)}% of total
-              </p>
+
+              <div className="flex items-center mt-1 gap-2.5">
+                <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
+                <div className="text-xs flex items-center text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
+                    {((paidUsers / totalUsers) * 100).toFixed(1)}% of total
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border">
+          <Card className="bg-card border-border border-b-4 border-b-amber-500">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-card-foreground">
                 Pending Payment
@@ -384,26 +410,41 @@ export default function ChurchDashboard() {
               <div className="text-2xl font-bold text-card-foreground">
                 {partialUsers + unpaidUsers}
               </div>
-              <p className="text-xs text-muted-foreground">
-                {partialUsers} partial, {unpaidUsers} unpaid
-              </p>
+
+              <div className="flex items-center mt-1 gap-2.5">
+                <span className="bg-[#ff8042] rounded-full h-[7px] w-[7px]" />
+                <div className="text-xs flex items-center text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
+                    {partialUsers} partial, {unpaidUsers} unpaid
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border">
+          <Card className="bg-card border-border payment border-b-4 border-b-[#0fa2f7]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-card-foreground">
                 Total Revenue
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-primary" />
+
+              <button className="bg-[#0fa2f7]/10 p-2 rounded-md">
+                <DollarSign className="h-4 w-4 text-[#0fa2f7]" />
+              </button>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-card-foreground">
                 ${totalRevenue}
               </div>
-              <p className="text-xs text-muted-foreground">
-                ${totalUsers * 500 - totalRevenue} remaining
-              </p>
+
+              <div className="flex items-center mt-1 gap-2.5">
+                <span className="bg-[#0fa2f7] rounded-full h-[7px] w-[7px]" />
+                <div className="text-xs flex items-center text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
+                    ${totalUsers * 500 - totalRevenue} remaining
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -472,7 +513,7 @@ export default function ChurchDashboard() {
             </div>
 
             {/* Users Table */}
-            <div className="rounded-md border border-border overflow-hidden">
+            <div className=" overflow-hidden">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
@@ -497,7 +538,7 @@ export default function ChurchDashboard() {
                               src={user.image || "/placeholder.svg"}
                               alt={user.name}
                             />
-                            <AvatarFallback className="bg-primary text-primary-foreground font-medium">
+                            <AvatarFallback className="bg-[#0fa2f7]/10 text-[#0fa2f7] font-medium">
                               {user.name
                                 .split(" ")
                                 .map((n) => n[0])
